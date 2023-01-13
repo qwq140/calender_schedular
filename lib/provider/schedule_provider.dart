@@ -56,4 +56,8 @@ class ScheduleProvider extends ChangeNotifier {
       ),
     );
   }
+
+  Future<void> deleteSchedule(int id) async {
+    await GetIt.I<LocalDatabase>().removeSchedule(id);
+  }
 }
