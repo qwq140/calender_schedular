@@ -18,7 +18,7 @@ class MainCalendar extends StatelessWidget {
     return TableCalendar(
       onDaySelected: onDaySelected,
       selectedDayPredicate: (date) => date.year == selectedDate.year && date.month == selectedDate.month && date.day == selectedDate.day,
-      focusedDay: DateTime.now(), // 포커스되는 날짜
+      focusedDay: DateTime(selectedDate.year, selectedDate.month, selectedDate.day), // 포커스되는 날짜
       firstDay: DateTime(1800, 1, 1), // 첫째 날
       lastDay: DateTime(2100, 1, 1), // 마지막 날
       headerStyle: const HeaderStyle(
