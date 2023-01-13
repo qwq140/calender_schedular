@@ -55,6 +55,7 @@ class MainCalendar extends StatelessWidget {
           color: PRIMARY_COLOR,
         ),
       ),
+      locale: 'ko_kr',
     );
   }
 }
