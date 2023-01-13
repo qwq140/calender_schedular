@@ -40,8 +40,9 @@ dependencies:
   provider: ^6.0.5 # 상태관리
   intl: ^0.18.0 # 다국어화
   get_it: ^7.2.0 # 의존성 주입 플러그인
-  freezed_annotation: ^2.2.0 # 코드 제네레이션
-  json_annotation: ^4.7.0 # 코드 제네레이션
+  drift: ^2.4.2
+  path: ^1.8.2
+  path_provider: ^2.0.11
 
 dev_dependencies:
   flutter_test:
@@ -54,8 +55,8 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
   build_runner: ^2.3.3
-  json_serializable: ^6.5.4
-  freezed: ^2.3.2
+  drift_dev: ^2.4.1 # drift 코드 생성 플러그인
+
 
 
 # For information on the generic Dart part of this file, see the
