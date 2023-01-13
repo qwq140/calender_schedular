@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:todo_app/const/color.dart';
+import 'package:todo_app/provider/schedule_provider.dart';
 
 class SelectedDateBanner extends StatelessWidget {
-  final DateTime selectedDate;
-  final int count;
 
   const SelectedDateBanner({
     Key? key,
-    required this.selectedDate,
-    required this.count,
   }) : super(key: key);
 
   @override
@@ -16,6 +14,7 @@ class SelectedDateBanner extends StatelessWidget {
     const textStyle =
         TextStyle(fontWeight: FontWeight.w600, color: Colors.white);
 
+    DateTime selectedDate = context.watch<ScheduleProvider>().selectedDate;
     return Container(
       color: PRIMARY_COLOR,
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -27,7 +26,7 @@ class SelectedDateBanner extends StatelessWidget {
             style: textStyle,
           ),
           Text(
-            '$count개',
+            '${context.watch<ScheduleProvider>().count}개',
             style: textStyle,
           ),
         ],

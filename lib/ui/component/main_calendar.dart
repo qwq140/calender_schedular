@@ -1,16 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:todo_app/const/color.dart';
+import 'package:todo_app/provider/schedule_provider.dart';
 
 class MainCalendar extends StatelessWidget {
 
   final OnDaySelected onDaySelected; // 날짜 선택 시 실행할 함수
-  final DateTime selectedDate;
 
-  const MainCalendar({Key? key, required this.onDaySelected, required this.selectedDate}) : super(key: key);
+  const MainCalendar({Key? key, required this.onDaySelected}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+
+    DateTime selectedDate = context.watch<ScheduleProvider>().selectedDate;
+
     return TableCalendar(
       onDaySelected: onDaySelected,
       selectedDayPredicate: (date) => date.year == selectedDate.year && date.month == selectedDate.month && date.day == selectedDate.day,
@@ -50,7 +54,7 @@ class MainCalendar extends StatelessWidget {
           fontWeight: FontWeight.w600,
           color: DARK_GREY_COLOR,
         ),
-        selectedTextStyle: TextStyle(
+        selectedTextStyle: const TextStyle(
           fontWeight: FontWeight.w600,
           color: PRIMARY_COLOR,
         ),

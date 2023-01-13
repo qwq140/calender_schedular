@@ -5,8 +5,10 @@ import 'package:todo_app/const/color.dart';
 class CustomTextField extends StatelessWidget {
   final String label;
   final bool isTime;
+  final Function(String? newValue) onSaved;
+  final String? Function(String? validator) validator;
 
-  const CustomTextField({Key? key, required this.label, required this.isTime}) : super(key: key);
+  const CustomTextField({Key? key, required this.label, required this.isTime, required this.onSaved, required this.validator}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +39,8 @@ class CustomTextField extends StatelessWidget {
                 fillColor: TEXT_FIELD_FILL_COLOR,
                 suffixText: isTime ? '시' : null,
               ),
+              onSaved: onSaved,
+              validator: validator,
             ),
           ),
         ],
