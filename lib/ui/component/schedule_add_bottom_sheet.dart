@@ -1,13 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app/const/color.dart';
+import 'package:todo_app/database/drift_database.dart';
 import 'package:todo_app/provider/schedule_provider.dart';
 import 'package:todo_app/ui/component/custom_text_field.dart';
 import 'package:todo_app/utils/data_utils.dart';
 import 'package:todo_app/utils/validator.dart';
 
+Future<T?> showScheduleBottomSheet<T>({required BuildContext context, Schedule? schedule}) => showModalBottomSheet(
+    context: context,
+    builder: (_) => ScheduleAddBottomSheet(schedule: schedule),
+    isScrollControlled: true,
+    shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20))
+    )
+);
+
+
 class ScheduleAddBottomSheet extends StatefulWidget {
-  const ScheduleAddBottomSheet({Key? key}) : super(key: key);
+  final Schedule? schedule;
+
+  const ScheduleAddBottomSheet({Key? key, this.schedule}) : super(key: key);
 
   @override
   State<ScheduleAddBottomSheet> createState() => _ScheduleAddBottomSheetState();
@@ -21,8 +34,11 @@ class _ScheduleAddBottomSheetState extends State<ScheduleAddBottomSheet> {
   void onSavePressed() async {
     if (!formKey.currentState!.validate()) return;
     formKey.currentState!.save();
-    print(content);
-    await context.read<ScheduleProvider>().createSchedule(content: content!);
+    if(widget.schedule != null){
+      await context.read<ScheduleProvider>().updateSchedule(id: widget.schedule!.id, content: content!);
+    } else {
+      await context.read<ScheduleProvider>().createSchedule(content: content!);
+    }
     Navigator.of(context).pop();
   }
 
@@ -38,7 +54,7 @@ class _ScheduleAddBottomSheetState extends State<ScheduleAddBottomSheet> {
           color: Colors.white,
         ),
         child: Padding(
-          padding: EdgeInsets.only(top : 8, left: 16, right: 16, bottom: bottomInset),
+          padding: EdgeInsets.only(top : 8, left: 16, right: 16, bottom: 8 + bottomInset),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -59,6 +75,7 @@ class _ScheduleAddBottomSheetState extends State<ScheduleAddBottomSheet> {
                 },
                 hint: '여기에 새 작업 입력',
                 validator: contentValidator,
+                value: widget.schedule?.content,
               ),
               const SizedBox(height: 8),
               SizedBox(

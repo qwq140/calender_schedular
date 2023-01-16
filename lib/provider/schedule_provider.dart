@@ -76,4 +76,8 @@ class ScheduleProvider extends ChangeNotifier {
   Future<void> completeOrCancel({required Schedule schedule, required bool isDone}) async {
     await GetIt.I<LocalDatabase>().doneSchedule(schedule.id, isDone);
   }
+
+  Future<void> updateSchedule({required int id, required String content}) async {
+    await GetIt.I<LocalDatabase>().updateSchedule(id, content);
+  }
 }

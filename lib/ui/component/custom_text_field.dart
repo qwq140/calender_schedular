@@ -5,10 +5,11 @@ import 'package:todo_app/const/color.dart';
 class CustomTextField extends StatelessWidget {
   final String label;
   final String hint;
+  final String? value;
   final Function(String? newValue) onSaved;
   final String? Function(String? validator) validator;
 
-  const CustomTextField({Key? key, required this.label, required this.hint, required this.onSaved, required this.validator}) : super(key: key);
+  const CustomTextField({Key? key, required this.label, required this.hint, required this.onSaved, required this.validator, this.value}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -28,6 +29,7 @@ class CustomTextField extends StatelessWidget {
       ),
       onSaved: onSaved,
       validator: validator,
+      initialValue: value,
     );
   }
 }

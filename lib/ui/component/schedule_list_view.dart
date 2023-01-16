@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:todo_app/const/color.dart';
 import 'package:todo_app/database/drift_database.dart';
 import 'package:todo_app/provider/schedule_provider.dart';
+import 'package:todo_app/ui/component/schedule_add_bottom_sheet.dart';
 import 'package:todo_app/ui/component/schedule_card.dart';
 
 class ScheduleListView extends StatelessWidget {
@@ -46,13 +47,16 @@ class ScheduleListView extends StatelessWidget {
                 },
               );
             },
-            child: ScheduleCard(
-              content: schedule.content,
-              isDone : schedule.isDone,
-              onChanged: (newValue) {
-                if(newValue == null) return;
-                context.read<ScheduleProvider>().completeOrCancel(schedule: schedule, isDone: newValue);
-              },
+            child: GestureDetector(
+              onTap: () => showScheduleBottomSheet(context: context, schedule: schedule),
+              child: ScheduleCard(
+                content: schedule.content,
+                isDone : schedule.isDone,
+                onChanged: (newValue) {
+                  if(newValue == null) return;
+                  context.read<ScheduleProvider>().completeOrCancel(schedule: schedule, isDone: newValue);
+                },
+              ),
             ),
           ),
         );

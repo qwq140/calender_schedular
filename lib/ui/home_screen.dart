@@ -45,14 +45,15 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          showModalBottomSheet(
-            context: context,
-            builder: (_) => const ScheduleAddBottomSheet(),
-            isScrollControlled: true,
-            shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.vertical(top: Radius.circular(20))
-            )
-          );
+          // showModalBottomSheet(
+          //   context: context,
+          //   builder: (_) => const ScheduleAddBottomSheet(),
+          //   isScrollControlled: true,
+          //   shape: const RoundedRectangleBorder(
+          //     borderRadius: BorderRadius.vertical(top: Radius.circular(20))
+          //   )
+          // );
+          showScheduleBottomSheet(context: context);
         },
         backgroundColor: PRIMARY_COLOR,
         child: const Icon(Icons.add),
