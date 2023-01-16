@@ -3,12 +3,24 @@ import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:todo_app/const/color.dart';
 import 'package:todo_app/provider/schedule_provider.dart';
+import 'package:todo_app/utils/data_utils.dart';
 
 class MainCalendar extends StatelessWidget {
 
   final OnDaySelected onDaySelected; // 날짜 선택 시 실행할 함수
 
   const MainCalendar({Key? key, required this.onDaySelected}) : super(key: key);
+
+  Widget _dowHeaderStyle({required String date}) {
+    return Center(
+      child: Container(
+        height: 30,
+        child: Text(
+          date,
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -59,6 +71,7 @@ class MainCalendar extends StatelessWidget {
           color: PRIMARY_COLOR,
         ),
       ),
+      daysOfWeekHeight: 30, // 요일 row 높이
       locale: 'ko_kr',
     );
   }

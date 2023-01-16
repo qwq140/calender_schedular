@@ -44,6 +44,9 @@ class _HomeScreenState extends State<HomeScreen> {
             context: context,
             builder: (_) => const ScheduleAddBottomSheet(),
             isScrollControlled: true,
+            shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.vertical(top: Radius.circular(20))
+            )
           );
         },
         backgroundColor: PRIMARY_COLOR,

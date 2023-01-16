@@ -47,9 +47,12 @@ class ScheduleListView extends StatelessWidget {
               );
             },
             child: ScheduleCard(
-              startTime: schedule.startTime,
-              endTime: schedule.endTime,
               content: schedule.content,
+              isDone : schedule.isDone,
+              onChanged: (newValue) {
+                if(newValue == null) return;
+                context.read<ScheduleProvider>().completeOrCancel(schedule: schedule, isDone: newValue);
+              },
             ),
           ),
         );

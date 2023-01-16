@@ -24,25 +24,25 @@ class $SchedulesTable extends Schedules
   late final GeneratedColumn<String> content = GeneratedColumn<String>(
       'content', aliasedName, false,
       type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _isDoneMeta = const VerificationMeta('isDone');
+  @override
+  late final GeneratedColumn<bool> isDone =
+      GeneratedColumn<bool>('is_done', aliasedName, false,
+          type: DriftSqlType.bool,
+          requiredDuringInsert: false,
+          defaultConstraints: GeneratedColumn.constraintsDependsOnDialect({
+            SqlDialect.sqlite: 'CHECK ("is_done" IN (0, 1))',
+            SqlDialect.mysql: '',
+            SqlDialect.postgres: '',
+          }),
+          defaultValue: const Constant(false));
   static const VerificationMeta _dateMeta = const VerificationMeta('date');
   @override
   late final GeneratedColumn<DateTime> date = GeneratedColumn<DateTime>(
       'date', aliasedName, false,
       type: DriftSqlType.dateTime, requiredDuringInsert: true);
-  static const VerificationMeta _startTimeMeta =
-      const VerificationMeta('startTime');
   @override
-  late final GeneratedColumn<int> startTime = GeneratedColumn<int>(
-      'start_time', aliasedName, false,
-      type: DriftSqlType.int, requiredDuringInsert: true);
-  static const VerificationMeta _endTimeMeta =
-      const VerificationMeta('endTime');
-  @override
-  late final GeneratedColumn<int> endTime = GeneratedColumn<int>(
-      'end_time', aliasedName, false,
-      type: DriftSqlType.int, requiredDuringInsert: true);
-  @override
-  List<GeneratedColumn> get $columns => [id, content, date, startTime, endTime];
+  List<GeneratedColumn> get $columns => [id, content, isDone, date];
   @override
   String get aliasedName => _alias ?? 'schedules';
   @override
@@ -61,23 +61,15 @@ class $SchedulesTable extends Schedules
     } else if (isInserting) {
       context.missing(_contentMeta);
     }
+    if (data.containsKey('is_done')) {
+      context.handle(_isDoneMeta,
+          isDone.isAcceptableOrUnknown(data['is_done']!, _isDoneMeta));
+    }
     if (data.containsKey('date')) {
       context.handle(
           _dateMeta, date.isAcceptableOrUnknown(data['date']!, _dateMeta));
     } else if (isInserting) {
       context.missing(_dateMeta);
-    }
-    if (data.containsKey('start_time')) {
-      context.handle(_startTimeMeta,
-          startTime.isAcceptableOrUnknown(data['start_time']!, _startTimeMeta));
-    } else if (isInserting) {
-      context.missing(_startTimeMeta);
-    }
-    if (data.containsKey('end_time')) {
-      context.handle(_endTimeMeta,
-          endTime.isAcceptableOrUnknown(data['end_time']!, _endTimeMeta));
-    } else if (isInserting) {
-      context.missing(_endTimeMeta);
     }
     return context;
   }
@@ -92,12 +84,10 @@ class $SchedulesTable extends Schedules
           .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
       content: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}content'])!,
+      isDone: attachedDatabase.typeMapping
+          .read(DriftSqlType.bool, data['${effectivePrefix}is_done'])!,
       date: attachedDatabase.typeMapping
           .read(DriftSqlType.dateTime, data['${effectivePrefix}date'])!,
-      startTime: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}start_time'])!,
-      endTime: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}end_time'])!,
     );
   }
 
@@ -110,23 +100,20 @@ class $SchedulesTable extends Schedules
 class Schedule extends DataClass implements Insertable<Schedule> {
   final int id;
   final String content;
+  final bool isDone;
   final DateTime date;
-  final int startTime;
-  final int endTime;
   const Schedule(
       {required this.id,
       required this.content,
-      required this.date,
-      required this.startTime,
-      required this.endTime});
+      required this.isDone,
+      required this.date});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     map['id'] = Variable<int>(id);
     map['content'] = Variable<String>(content);
+    map['is_done'] = Variable<bool>(isDone);
     map['date'] = Variable<DateTime>(date);
-    map['start_time'] = Variable<int>(startTime);
-    map['end_time'] = Variable<int>(endTime);
     return map;
   }
 
@@ -134,9 +121,8 @@ class Schedule extends DataClass implements Insertable<Schedule> {
     return SchedulesCompanion(
       id: Value(id),
       content: Value(content),
+      isDone: Value(isDone),
       date: Value(date),
-      startTime: Value(startTime),
-      endTime: Value(endTime),
     );
   }
 
@@ -146,9 +132,8 @@ class Schedule extends DataClass implements Insertable<Schedule> {
     return Schedule(
       id: serializer.fromJson<int>(json['id']),
       content: serializer.fromJson<String>(json['content']),
+      isDone: serializer.fromJson<bool>(json['isDone']),
       date: serializer.fromJson<DateTime>(json['date']),
-      startTime: serializer.fromJson<int>(json['startTime']),
-      endTime: serializer.fromJson<int>(json['endTime']),
     );
   }
   @override
@@ -157,101 +142,83 @@ class Schedule extends DataClass implements Insertable<Schedule> {
     return <String, dynamic>{
       'id': serializer.toJson<int>(id),
       'content': serializer.toJson<String>(content),
+      'isDone': serializer.toJson<bool>(isDone),
       'date': serializer.toJson<DateTime>(date),
-      'startTime': serializer.toJson<int>(startTime),
-      'endTime': serializer.toJson<int>(endTime),
     };
   }
 
-  Schedule copyWith(
-          {int? id,
-          String? content,
-          DateTime? date,
-          int? startTime,
-          int? endTime}) =>
+  Schedule copyWith({int? id, String? content, bool? isDone, DateTime? date}) =>
       Schedule(
         id: id ?? this.id,
         content: content ?? this.content,
+        isDone: isDone ?? this.isDone,
         date: date ?? this.date,
-        startTime: startTime ?? this.startTime,
-        endTime: endTime ?? this.endTime,
       );
   @override
   String toString() {
     return (StringBuffer('Schedule(')
           ..write('id: $id, ')
           ..write('content: $content, ')
-          ..write('date: $date, ')
-          ..write('startTime: $startTime, ')
-          ..write('endTime: $endTime')
+          ..write('isDone: $isDone, ')
+          ..write('date: $date')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(id, content, date, startTime, endTime);
+  int get hashCode => Object.hash(id, content, isDone, date);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       (other is Schedule &&
           other.id == this.id &&
           other.content == this.content &&
-          other.date == this.date &&
-          other.startTime == this.startTime &&
-          other.endTime == this.endTime);
+          other.isDone == this.isDone &&
+          other.date == this.date);
 }
 
 class SchedulesCompanion extends UpdateCompanion<Schedule> {
   final Value<int> id;
   final Value<String> content;
+  final Value<bool> isDone;
   final Value<DateTime> date;
-  final Value<int> startTime;
-  final Value<int> endTime;
   const SchedulesCompanion({
     this.id = const Value.absent(),
     this.content = const Value.absent(),
+    this.isDone = const Value.absent(),
     this.date = const Value.absent(),
-    this.startTime = const Value.absent(),
-    this.endTime = const Value.absent(),
   });
   SchedulesCompanion.insert({
     this.id = const Value.absent(),
     required String content,
+    this.isDone = const Value.absent(),
     required DateTime date,
-    required int startTime,
-    required int endTime,
   })  : content = Value(content),
-        date = Value(date),
-        startTime = Value(startTime),
-        endTime = Value(endTime);
+        date = Value(date);
   static Insertable<Schedule> custom({
     Expression<int>? id,
     Expression<String>? content,
+    Expression<bool>? isDone,
     Expression<DateTime>? date,
-    Expression<int>? startTime,
-    Expression<int>? endTime,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
       if (content != null) 'content': content,
+      if (isDone != null) 'is_done': isDone,
       if (date != null) 'date': date,
-      if (startTime != null) 'start_time': startTime,
-      if (endTime != null) 'end_time': endTime,
     });
   }
 
   SchedulesCompanion copyWith(
       {Value<int>? id,
       Value<String>? content,
-      Value<DateTime>? date,
-      Value<int>? startTime,
-      Value<int>? endTime}) {
+      Value<bool>? isDone,
+      Value<DateTime>? date}) {
     return SchedulesCompanion(
       id: id ?? this.id,
       content: content ?? this.content,
+      isDone: isDone ?? this.isDone,
       date: date ?? this.date,
-      startTime: startTime ?? this.startTime,
-      endTime: endTime ?? this.endTime,
     );
   }
 
@@ -264,14 +231,11 @@ class SchedulesCompanion extends UpdateCompanion<Schedule> {
     if (content.present) {
       map['content'] = Variable<String>(content.value);
     }
+    if (isDone.present) {
+      map['is_done'] = Variable<bool>(isDone.value);
+    }
     if (date.present) {
       map['date'] = Variable<DateTime>(date.value);
-    }
-    if (startTime.present) {
-      map['start_time'] = Variable<int>(startTime.value);
-    }
-    if (endTime.present) {
-      map['end_time'] = Variable<int>(endTime.value);
     }
     return map;
   }
@@ -281,9 +245,8 @@ class SchedulesCompanion extends UpdateCompanion<Schedule> {
     return (StringBuffer('SchedulesCompanion(')
           ..write('id: $id, ')
           ..write('content: $content, ')
-          ..write('date: $date, ')
-          ..write('startTime: $startTime, ')
-          ..write('endTime: $endTime')
+          ..write('isDone: $isDone, ')
+          ..write('date: $date')
           ..write(')'))
         .toString();
   }

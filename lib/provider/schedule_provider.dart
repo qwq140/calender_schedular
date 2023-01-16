@@ -43,14 +43,10 @@ class ScheduleProvider extends ChangeNotifier {
   }
 
   Future<void> createSchedule({
-    required int startTime,
-    required int endTime,
     required String content,
   }) async {
     await GetIt.I<LocalDatabase>().createSchedule(
       SchedulesCompanion(
-        startTime: Value(startTime),
-        endTime: Value(endTime),
         content: Value(content),
         date: Value(selectedDate),
       ),
@@ -59,5 +55,9 @@ class ScheduleProvider extends ChangeNotifier {
 
   Future<void> deleteSchedule(int id) async {
     await GetIt.I<LocalDatabase>().removeSchedule(id);
+  }
+
+  Future<void> completeOrCancel({required Schedule schedule, required bool isDone}) async {
+    await GetIt.I<LocalDatabase>().doneSchedule(schedule.id, isDone);
   }
 }

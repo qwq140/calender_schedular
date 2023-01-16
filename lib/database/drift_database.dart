@@ -21,6 +21,7 @@ class LocalDatabase extends _$LocalDatabase {
   Stream<List<Schedule>> watchSchedules(DateTime date) => (select(schedules)..where((tbl) => tbl.date.equals(date))).watch();
   Future<int> createSchedule(SchedulesCompanion data) => into(schedules).insert(data);
   Future<int> removeSchedule(int id) => (delete(schedules)..where((tbl) => tbl.id.equals(id))).go();
+  Future<int> doneSchedule(int id, bool isDone) => (update(schedules)..where((tbl) => tbl.id.equals(id))).write(SchedulesCompanion(isDone: Value(isDone)));
 
   @override
   int get schemaVersion => 1;

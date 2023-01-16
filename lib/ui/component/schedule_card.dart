@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:todo_app/const/color.dart';
 
 class ScheduleCard extends StatelessWidget {
-  final int startTime;
-  final int endTime;
   final String content;
+  final bool isDone;
+  final Function(bool? newValue) onChanged;
 
   const ScheduleCard({
     Key? key,
-    required this.startTime,
-    required this.endTime,
     required this.content,
+    required this.isDone,
+    required this.onChanged,
   }) : super(key: key);
 
   @override
@@ -23,48 +23,22 @@ class ScheduleCard extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _Time(startTime: startTime, endTime: endTime),
+            SizedBox(
+              width: 24,
+              height: 24,
+              child: Checkbox(
+                shape: CircleBorder(),
+                activeColor: PRIMARY_COLOR,
+                value: isDone,
+                onChanged: onChanged,
+              ),
+            ),
             const SizedBox(width: 16),
             _Content(content: content),
           ],
         ),
       ),
-    );
-  }
-}
-
-class _Time extends StatelessWidget {
-  final int startTime;
-  final int endTime;
-
-  const _Time({
-    Key? key,
-    required this.startTime,
-    required this.endTime,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    const textStyle = TextStyle(
-      fontWeight: FontWeight.w600,
-      fontSize: 16,
-      color: PRIMARY_COLOR,
-    );
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          '${startTime.toString().padLeft(2, '0')}:00',
-          style: textStyle,
-        ),
-        Text(
-          '${endTime.toString().padLeft(2, '0')}:00',
-          style: textStyle.copyWith(fontSize: 10),
-        ),
-      ],
     );
   }
 }
