@@ -26,7 +26,7 @@ class ScheduleProvider extends ChangeNotifier {
 
   set selectedDate(DateTime value) {
     _selectedDate = value;
-    selectSchedules = monthSchedules.where((schedule) => compareDate(schedule.date, selectedDate)).toList();
+    selectSchedules = monthSchedules.where((schedule) => DataUtils.compareDate(schedule.date, selectedDate)).toList();
     count = selectSchedules.length;
     notifyListeners();
   }
@@ -42,7 +42,7 @@ class ScheduleProvider extends ChangeNotifier {
     scheduleStream = GetIt.I<LocalDatabase>().watchSchedules(date);
     subscription = scheduleStream.listen((schedules) {
       monthSchedules = schedules;
-      selectSchedules = schedules.where((schedule) => compareDate(schedule.date, selectedDate)).toList();
+      selectSchedules = schedules.where((schedule) => DataUtils.compareDate(schedule.date, selectedDate)).toList();
       count = selectSchedules.length;
       notifyListeners();
     });
@@ -52,7 +52,7 @@ class ScheduleProvider extends ChangeNotifier {
     scheduleStream = GetIt.I<LocalDatabase>().watchSchedules(selectedDate);
     subscription = scheduleStream.listen((schedules) {
       monthSchedules = schedules;
-      selectSchedules = schedules.where((schedule) => compareDate(schedule.date, selectedDate)).toList();
+      selectSchedules = schedules.where((schedule) => DataUtils.compareDate(schedule.date, selectedDate)).toList();
       count = selectSchedules.length;
       notifyListeners();
     });

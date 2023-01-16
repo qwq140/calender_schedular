@@ -60,7 +60,7 @@ class _ScheduleAddBottomSheetState extends State<ScheduleAddBottomSheet> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                convertDateToString(
+                DataUtils.convertDateToString(
                     context.read<ScheduleProvider>().selectedDate),
                 style: TextStyle(
                   color: DARK_GREY_COLOR,
