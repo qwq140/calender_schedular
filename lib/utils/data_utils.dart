@@ -19,3 +19,11 @@ String convertWeekdayToStringValue(int weekDay) {
 }
 
 String convertDateToString(DateTime date) => "${date.year}년 ${date.month}월 ${date.day}일";
+
+DateTime getStartDate(DateTime date) => DateTime(date.year, date.month, 1);
+DateTime getEndDate(DateTime date) => DateTime(date.year, date.month + 1, 0);
+
+/**
+ * year, month, date 비교
+ */
+bool compareDate(DateTime date1, DateTime date2) => date1.year == date2.year && date1.month == date2.month && date1.day == date2.day;

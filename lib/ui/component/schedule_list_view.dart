@@ -11,7 +11,7 @@ class ScheduleListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final schedules = context.watch<ScheduleProvider>().schedules;
+    final schedules = context.watch<ScheduleProvider>().selectSchedules;
 
     return Expanded(
       child: ListView.builder(

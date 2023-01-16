@@ -4,12 +4,14 @@ import 'package:drift/drift.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:todo_app/database/drift_database.dart';
+import 'package:todo_app/utils/data_utils.dart';
 
 class ScheduleProvider extends ChangeNotifier {
 
   DateTime _selectedDate = DateTime.utc(DateTime.now().year, DateTime.now().month, DateTime.now().day);
   int _count = 0;
-  List<Schedule> schedules = [];
+  List<Schedule> monthSchedules = [];
+  List<Schedule> selectSchedules = [];
   late Stream<List<Schedule>> scheduleStream;
   late StreamSubscription<List<Schedule>> subscription;
 
@@ -24,8 +26,8 @@ class ScheduleProvider extends ChangeNotifier {
 
   set selectedDate(DateTime value) {
     _selectedDate = value;
-    subscription.cancel();
-    _getScheduleStream();
+    selectSchedules = monthSchedules.where((schedule) => compareDate(schedule.date, selectedDate)).toList();
+    count = selectSchedules.length;
     notifyListeners();
   }
 
@@ -33,11 +35,25 @@ class ScheduleProvider extends ChangeNotifier {
     _getScheduleStream();
   }
 
+  /// ex) 캘린터 페이지를 넘겨 달을 바꿨을 때
+  void changeMonth(DateTime date) {
+    _selectedDate = date;
+    subscription.cancel();
+    scheduleStream = GetIt.I<LocalDatabase>().watchSchedules(date);
+    subscription = scheduleStream.listen((schedules) {
+      monthSchedules = schedules;
+      selectSchedules = schedules.where((schedule) => compareDate(schedule.date, selectedDate)).toList();
+      count = selectSchedules.length;
+      notifyListeners();
+    });
+  }
+
   void _getScheduleStream(){
     scheduleStream = GetIt.I<LocalDatabase>().watchSchedules(selectedDate);
-    subscription = scheduleStream.listen((event) {
-      schedules = event;
-      count = event.length;
+    subscription = scheduleStream.listen((schedules) {
+      monthSchedules = schedules;
+      selectSchedules = schedules.where((schedule) => compareDate(schedule.date, selectedDate)).toList();
+      count = selectSchedules.length;
       notifyListeners();
     });
   }

@@ -18,7 +18,11 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
 
   void onDaySelected(DateTime selectedDate, DateTime focusedDate) {
-    context.read<ScheduleProvider>().selectedDate = selectedDate;
+    context.read<ScheduleProvider>().selectedDate = DateTime(selectedDate.year, selectedDate.month, selectedDate.day);
+  }
+
+  void onPageChanged(DateTime focusedDate){
+    context.read<ScheduleProvider>().changeMonth(focusedDate);
   }
 
   @override
@@ -30,6 +34,7 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             MainCalendar(
               onDaySelected: onDaySelected,
+              onPageChanged: onPageChanged,
             ),
             const SizedBox(height: 8.0),
             const SelectedDateBanner(),

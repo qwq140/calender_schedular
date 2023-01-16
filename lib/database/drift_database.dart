@@ -6,6 +6,7 @@ import 'package:todo_app/model/schedules.dart';
 import 'package:drift/native.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart';
+import 'package:todo_app/utils/data_utils.dart';
 
 part 'drift_database.g.dart';
 
@@ -18,7 +19,7 @@ class LocalDatabase extends _$LocalDatabase {
 
   LocalDatabase() : super(_openConnection());
 
-  Stream<List<Schedule>> watchSchedules(DateTime date) => (select(schedules)..where((tbl) => tbl.date.equals(date))).watch();
+  Stream<List<Schedule>> watchSchedules(DateTime date) => (select(schedules)..where((tbl) => (tbl.date.isBiggerThanValue(getStartDate(date)) & tbl.date.isSmallerOrEqualValue(getEndDate(date))))).watch();
   Future<int> createSchedule(SchedulesCompanion data) => into(schedules).insert(data);
   Future<int> removeSchedule(int id) => (delete(schedules)..where((tbl) => tbl.id.equals(id))).go();
   Future<int> doneSchedule(int id, bool isDone) => (update(schedules)..where((tbl) => tbl.id.equals(id))).write(SchedulesCompanion(isDone: Value(isDone)));

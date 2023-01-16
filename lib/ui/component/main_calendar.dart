@@ -8,19 +8,10 @@ import 'package:todo_app/utils/data_utils.dart';
 class MainCalendar extends StatelessWidget {
 
   final OnDaySelected onDaySelected; // 날짜 선택 시 실행할 함수
+  final Function(DateTime focusedDate) onPageChanged;
 
-  const MainCalendar({Key? key, required this.onDaySelected}) : super(key: key);
+  const MainCalendar({Key? key, required this.onDaySelected, required this.onPageChanged}) : super(key: key);
 
-  Widget _dowHeaderStyle({required String date}) {
-    return Center(
-      child: Container(
-        height: 30,
-        child: Text(
-          date,
-        ),
-      ),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +20,7 @@ class MainCalendar extends StatelessWidget {
 
     return TableCalendar(
       onDaySelected: onDaySelected,
+      onPageChanged: onPageChanged,
       selectedDayPredicate: (date) => date.year == selectedDate.year && date.month == selectedDate.month && date.day == selectedDate.day,
       focusedDay: DateTime(selectedDate.year, selectedDate.month, selectedDate.day), // 포커스되는 날짜
       firstDay: DateTime(1800, 1, 1), // 첫째 날
