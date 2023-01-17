@@ -1,4 +1,4 @@
-package com.pjay.todo_app
+package com.pjay.calendarscheduler
 
 import io.flutter.embedding.android.FlutterActivity
 
