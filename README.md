@@ -38,12 +38,14 @@ https://youtube.com/shorts/mNMwt5Jx4Ys
 
 ## 구현 화면
 ### 메인 페이지
-![KakaoTalk_Photo_2023-01-17-13-47-08 001](https://user-images.githubusercontent.com/74044232/212830892-bae6b313-823f-45a2-8e6f-73f9b20e48d3.jpeg)
+<img src="https://user-images.githubusercontent.com/74044232/212830892-bae6b313-823f-45a2-8e6f-73f9b20e48d3.jpeg" width="200" height="400"/>
+
 ### 일정 등록
-![KakaoTalk_Photo_2023-01-17-13-47-08 002](https://user-images.githubusercontent.com/74044232/212830888-789c3784-34c5-49a6-b150-8a1eff182365.jpeg)
+<img src="https://user-images.githubusercontent.com/74044232/212830888-789c3784-34c5-49a6-b150-8a1eff182365.jpeg" width="200" height="400"/>
+
 ### 일정 등록된 화면
-![KakaoTalk_Photo_2023-01-17-13-47-08 003](https://user-images.githubusercontent.com/74044232/212830886-773755d7-15fc-4b8a-a34b-10d1dca0f7a6.jpeg)
-![KakaoTalk_Photo_2023-01-17-13-47-08 004](https://user-images.githubusercontent.com/74044232/212830881-0aab6b2f-3a66-43a1-bba6-5e5f77a982a7.jpeg)
+<img src="https://user-images.githubusercontent.com/74044232/212830886-773755d7-15fc-4b8a-a34b-10d1dca0f7a6.jpeg" width="200" height="400"/>
+<img src="https://user-images.githubusercontent.com/74044232/212830881-0aab6b2f-3a66-43a1-bba6-5e5f77a982a7.jpeg" width="200" height="400"/>
 
 ## 노션 링크
 https://www.notion.so/c1c2c732de6f4f1dad91c84704522c9fhttps://www.notion.so/c1c2c732de6f4f1dad91c84704522c9f
