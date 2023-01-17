@@ -27,7 +27,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print("홈스크린 빌드");
     return Scaffold(
       body: SafeArea(
         child: Column(
