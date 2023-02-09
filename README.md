@@ -48,4 +48,4 @@ https://youtube.com/shorts/mNMwt5Jx4Ys
 <img src="https://user-images.githubusercontent.com/74044232/212830881-0aab6b2f-3a66-43a1-bba6-5e5f77a982a7.jpeg" width="200" height="400"/>
 
 ## 노션 링크
-https://www.notion.so/c1c2c732de6f4f1dad91c84704522c9fhttps://www.notion.so/c1c2c732de6f4f1dad91c84704522c9f
+https://adjoining-longship-dd7.notion.site/c1c2c732de6f4f1dad91c84704522c9f
